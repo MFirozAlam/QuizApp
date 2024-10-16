@@ -2,10 +2,10 @@ package com.example.quizapp.repository
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.quizapp.model.QuestionDao
 import com.example.quizapp.model.QuestionEntity
 import android.content.Context
 import androidx.room.Room
+import com.example.quizapp.model.QuestionDao
 
 @Database(entities = [QuestionEntity::class], version = 1)
 abstract class QuizDatabase : RoomDatabase() {

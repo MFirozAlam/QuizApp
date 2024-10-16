@@ -4,15 +4,18 @@ import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import com.example.quizapp.model.Question
 import com.example.quizapp.model.QuestionEntity
 import com.example.quizapp.repository.QuizRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
+@HiltViewModel
+class QuizViewModel@Inject constructor(private val repository: QuizRepository) : ViewModel() {
 
+    //val message: LiveData<String> = MutableLiveData("Hello from ViewModel")
     private val _questionList = MutableLiveData<List<Question>?>()
     val questionList: MutableLiveData<List<Question>?> = _questionList
 
@@ -59,14 +62,5 @@ class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
                 // Handle quiz end
             }
         }.start()
-    }
-}
-class QuizViewModelFactory(private val repository: QuizRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(QuizViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return QuizViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

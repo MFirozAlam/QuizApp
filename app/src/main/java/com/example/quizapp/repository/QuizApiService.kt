@@ -10,15 +10,3 @@ interface QuizApiService {
     @GET("api.php?amount=10&type=multiple")
     suspend fun getQuestions(): Response<List<Question>>
 }
-
-object RetrofitClient {
-    private const val BASE_URL = "https://opentdb.com/"
-
-    val instance: QuizApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(QuizApiService::class.java)
-    }
-}

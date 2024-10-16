@@ -1,43 +1,50 @@
-package com.example.quizapp.view
+package com.example.quizapp.view // or your package
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.quizapp.R
-import com.example.quizapp.repository.RetrofitClient
-import com.example.quizapp.repository.QuizRepository
+import androidx.fragment.app.viewModels
+import com.example.quizapp.R // Update with your layout file
 import com.example.quizapp.viewmodel.QuizViewModel
 import com.example.quizapp.viewmodel.QuizViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class QuizFragment : Fragment(R.layout.fragment_quiz) {
+@AndroidEntryPoint
+class QuizFragment : Fragment() {
 
-    private lateinit var viewModel: QuizViewModel
+    @Inject
+    lateinit var quizViewModelFactory: QuizViewModelFactory
+
+    private val viewModel: QuizViewModel by viewModels { quizViewModelFactory }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_quiz, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize the repository
-        val repository = QuizRepository(
-            RetrofitClient.instance,
-            requireContext() // Pass context here
-        )
-
-        // Initialize the ViewModel using the factory and repository
-        val viewModelFactory = QuizViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[QuizViewModel::class.java]
-
-        // Fetch questions and observe data
-        viewModel.fetchQuestions()
-
+        // Observe LiveData from ViewModel and update UI
         viewModel.questionList.observe(viewLifecycleOwner) { questions ->
-            // Display the questions on the screen
+            // Update UI with questions
         }
 
-        viewModel.timer.observe(viewLifecycleOwner) { timeLeft ->
-            // Display the timer
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            // Show/hide loading indicator
         }
 
-        viewModel.startQuizTimer(60000) // 60 seconds for example
+        viewModel.timer.observe(viewLifecycleOwner) { remainingTime ->
+            // Update timer display
+        }
+
+        // Start the quiz timer (adjust totalTime as needed)
+        viewModel.startQuizTimer(totalTime = 60000)
     }
 }
