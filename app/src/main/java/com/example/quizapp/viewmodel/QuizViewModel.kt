@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class QuizViewModel@Inject constructor(private val repository: QuizRepository) : ViewModel() {
+class QuizViewModel @Inject constructor(private val repository: QuizRepository) : ViewModel() {
 
     //val message: LiveData<String> = MutableLiveData("Hello from ViewModel")
     private val _questionList = MutableLiveData<List<Question>?>()

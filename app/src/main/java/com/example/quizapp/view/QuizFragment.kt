@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.quizapp.R // Update with your layout file
 import com.example.quizapp.viewmodel.QuizViewModel
 import com.example.quizapp.viewmodel.QuizViewModelFactory
+//import com.example.quizapp.viewmodel.QuizViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ class QuizFragment : Fragment() {
     lateinit var quizViewModelFactory: QuizViewModelFactory
 
     private val viewModel: QuizViewModel by viewModels { quizViewModelFactory }
+    //private val viewModel: QuizViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

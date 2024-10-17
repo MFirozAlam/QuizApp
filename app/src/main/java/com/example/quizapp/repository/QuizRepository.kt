@@ -5,8 +5,9 @@ import com.example.quizapp.model.Question
 import com.example.quizapp.model.QuestionDao
 import com.example.quizapp.model.QuestionEntity
 import com.example.quizapp.QuizApplication
+import javax.inject.Inject
 
-class QuizRepository(private val apiService: QuizApiService,private val context: Context) {
+class QuizRepository @Inject constructor(private val apiService: QuizApiService, private val context: Context) {
 
     private val questionDao: QuestionDao by lazy{
         (context.applicationContext as QuizApplication).database.questionDao()
